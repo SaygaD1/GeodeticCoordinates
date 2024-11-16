@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>dist/assets/index-CAOYkCUQ.js</file>
+        <file>dist/assets/index-CAOYkCUQ.js.map</file>
+        <file>dist/assets/index-D09opdbs.css</file>
+        <file>dist/index.html</file>
+    </qresource>
+</RCC>

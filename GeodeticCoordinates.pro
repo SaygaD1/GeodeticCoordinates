@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui qml quick location webenginewidgets network webenginequick positioning
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -19,7 +19,7 @@ FORMS += \
     mainwindow.ui
 
 TRANSLATIONS += \
-    GeodeticCoordinates_ru_RU.ts
+    GeodeticCoordinates_ru_RU.ts \
 CONFIG += lrelease
 CONFIG += embed_translations
 
@@ -27,3 +27,9 @@ CONFIG += embed_translations
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    MapLeaflet.qml \
+
+RESOURCES += \
+    resources.qrc
