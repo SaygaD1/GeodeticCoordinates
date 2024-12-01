@@ -88,7 +88,7 @@
      <bool>false</bool>
     </property>
     <property name="placeholderText">
-     <string notr="true">Введите долготу:</string>
+     <string notr="true">Введите широту:</string>
     </property>
     <property name="clearButtonEnabled">
      <bool>true</bool>
@@ -131,7 +131,7 @@
      <bool>false</bool>
     </property>
     <property name="placeholderText">
-     <string notr="true">Введите широту:</string>
+     <string notr="true">Введите долготу:</string>
     </property>
     <property name="cursorMoveStyle">
      <enum>Qt::CursorMoveStyle::LogicalMoveStyle</enum>
