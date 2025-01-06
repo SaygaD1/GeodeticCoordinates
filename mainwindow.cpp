@@ -39,7 +39,10 @@ void MainWindow::on_pushButton_2_clicked()
 {
     size_t size = Coord.size();
     if(size > 1)
+    {
         Coord.clear();
+        mpWebView->page()->runJavaScript(QString("deleteMap()"));
+    }
 }
 
 
@@ -63,24 +66,30 @@ void MainWindow::on_pushButton_3_clicked()
         //Длина ортодромии
         double orto = Pi*Radius/180 * alfa;
         int N = 50;
-        double tanpsi0, f1 = fin , l1 = lambdan;
-        // mpWebView->page()->runJavaScript(QString("%1,%2").arg(f1).arg(l1));
+        double tanpsi0, f1, l1;
+
+        f1 = fin;
+        l1 = lambdan;
+
         mpWebView->page()->runJavaScript(QString("addLoksodroma(%1,%2,%3,%4)").arg(lambdan).arg(fin).arg(lambdak).arg(fik));
         for(size_t i = 1; i < N; i++)
         {
             double prevF = f1, prevL = l1;
-            tanpsi0 = 1/(cos(fromDToR(f1))*tan(fromDToR(fik))/sin(fromDToR(lambdak - l1)) - sin(fromDToR(f1))/tan(fromDToR(lambdak-l1)));
-            // tanpsi0 = cos(fromDToR(l1))*tan(fromDToR(lambdak))/sin(fromDToR(fik - f1)) - sin(fromDToR(l1))/tan(fromDToR(fik-f1));
-            tanpsi0 = (atan(tanpsi0)>0) ? atan(tanpsi0) : 3.1415 + atan(tanpsi0);
+            tanpsi0 = 1/(cos(fromDToR(f1))*tan(fromDToR(fik))/sin(fromDToR(lambdak - (l1+0.001))) - sin(fromDToR(f1))/tan(fromDToR(lambdak-(l1+0.001))));
+            if( (atan(tanpsi0) < 0))
+            {
+                tanpsi0 = (fik-fin < 0) ? 3.1415 + atan(tanpsi0) : atan(tanpsi0);
+            }
+            else
+            {
+                tanpsi0 = atan(tanpsi0);
+            }
+            // tanpsi0 = (atan(tanpsi0)>0) ? atan(tanpsi0) : 3.1415 + atan(tanpsi0);
             qDebug() << QString("tanpsi0[%1]=%2").arg(i).arg(tanpsi0);
-            // qDebug() << QString(" Latitude[%1]=%2").arg(i).arg(f1 + 57.3*orto/N*cos(tanpsi0)/(Radius*cos(fromDToR(f1)))) << QString("Longitude[%1]=%2").arg(i).arg(f1 + 57.3*orto/N*sin(tanpsi0)/(Radius));
-            // f1 += 57.3*orto/(N-1) * sin(tanpsi0)/(Radius);
-            // l1 += 57.3*orto/(N-1) * cos(tanpsi0)/(Radius*cos(fromDToR(f1)));
             qDebug() << 57.3*orto/(N-1) * cos(tanpsi0)/(Radius);
             f1 += 57.3*orto/(N-1) * cos(tanpsi0)/(Radius);
             l1 += 57.3*orto/(N-1) * sin(tanpsi0)/(Radius*cos(fromDToR(prevF)));
             qDebug() << QString(" Latitude[%1]=%2").arg(i).arg(f1) << QString("Longitude[%1]=%2").arg(i).arg(l1);
-            // mpWebView->page()->runJavaScript(QString("addOrtodroma(%1,%2,%3,%4)").arg(prevF).arg(prevL).arg(f1).arg(l1));
             mpWebView->page()->runJavaScript(QString("addOrtodroma(%1,%2,%3,%4)").arg(prevL).arg(prevF).arg(l1).arg(f1));
         }
     }

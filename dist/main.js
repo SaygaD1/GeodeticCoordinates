@@ -44,7 +44,6 @@ function addOrtodroma(lat1, lng1, lat2, lng2)
 	var points = [ [lat1, lng1], [lat2, lng2] ];
 	for (var i = 0; i < points.length; i++) {
 		points[i] = ol.proj.transform(points[i], 'EPSG:4326', 'EPSG:3857');
-		console.log(points[i]);
 	}
 
 	var featureLine = new ol.Feature({
@@ -61,18 +60,17 @@ function addOrtodroma(lat1, lng1, lat2, lng2)
 	            stroke: new ol.style.Stroke({ color: '#00FF00', width: 2 })
 	        })
 	    });
-  //   	map = new ol.Map({
-		// 	view: new ol.View({
-		// 		center: [0, 0],
-		// 		zoom: 2
-		//     }),
-		//     layers:[
-		// 		new ol.layer.Tile({
-		// 			source: new ol.source.OSM()
-		// 		}),
-		// 		vectorLineLayer
-		// 	],
-		// 	target: 'map'
-		// })
    	map.addLayer(vectorLineLayer);
+}
+function deleteMap()
+{
+    var layerArray, len, layer;
+    layerArray = map.getLayers().getArray();
+    len = layerArray.length;
+    while(len > 1)
+    {
+        layer = layerArray[len-1];
+        map.removeLayer(layer);
+        len = layerArray.length;
+    }
 }
