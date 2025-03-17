@@ -5,6 +5,8 @@
 #include <QDebug>
 #include <QtWebEngineWidgets/QWebEngineView>
 #include <QGeoCoordinate>
+#include <QWebChannel>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -26,6 +28,8 @@ private slots:
     void on_pushButton_2_clicked();
 
     void on_pushButton_3_clicked();
+
+    void on_pushButton_4_clicked();
 
 private:
     double Radius = 6378.1, Pi =3.1415;

@@ -1,0 +1,49 @@
+-ID:/Qt/6.8.0/msvc2022_64/mkspecs/win32-msvc
+-ID:/Users/nefed/Documents/QTProjects/GeodeticCoordinates
+-ID:/Qt/6.8.0/msvc2022_64/include
+-ID:/Qt/6.8.0/msvc2022_64/include/QtLocation
+-ID:/Qt/6.8.0/msvc2022_64/include/QtPositioningQuick
+-ID:/Qt/6.8.0/msvc2022_64/include/QtQuickShapes
+-ID:/Qt/6.8.0/msvc2022_64/include/QtQuickShapes/6.8.0
+-ID:/Qt/6.8.0/msvc2022_64/include/QtQuickShapes/6.8.0/QtQuickShapes
+-ID:/Qt/6.8.0/msvc2022_64/include/QtQuick/6.8.0
+-ID:/Qt/6.8.0/msvc2022_64/include/QtQuick/6.8.0/QtQuick
+-ID:/Qt/6.8.0/msvc2022_64/include/QtWebEngineWidgets
+-ID:/Qt/6.8.0/msvc2022_64/include/QtWebEngineQuick
+-ID:/Qt/6.8.0/msvc2022_64/include/QtWebEngineCore
+-ID:/Qt/6.8.0/msvc2022_64/include/QtQuick
+-ID:/Qt/6.8.0/msvc2022_64/include/QtOpenGL
+-ID:/Qt/6.8.0/msvc2022_64/include/QtGui/6.8.0
+-ID:/Qt/6.8.0/msvc2022_64/include/QtGui/6.8.0/QtGui
+-ID:/Qt/6.8.0/msvc2022_64/include/QtPrintSupport
+-ID:/Qt/6.8.0/msvc2022_64/include/QtWidgets
+-ID:/Qt/6.8.0/msvc2022_64/include/QtGui
+-ID:/Qt/6.8.0/msvc2022_64/include/QtQmlMeta/6.8.0
+-ID:/Qt/6.8.0/msvc2022_64/include/QtQmlMeta/6.8.0/QtQmlMeta
+-ID:/Qt/6.8.0/msvc2022_64/include/QtQmlMeta
+-ID:/Qt/6.8.0/msvc2022_64/include/QtQmlModels/6.8.0
+-ID:/Qt/6.8.0/msvc2022_64/include/QtQmlModels/6.8.0/QtQmlModels
+-ID:/Qt/6.8.0/msvc2022_64/include/QtQmlModels
+-ID:/Qt/6.8.0/msvc2022_64/include/QtQmlWorkerScript/6.8.0
+-ID:/Qt/6.8.0/msvc2022_64/include/QtQmlWorkerScript/6.8.0/QtQmlWorkerScript
+-ID:/Qt/6.8.0/msvc2022_64/include/QtQmlWorkerScript
+-ID:/Qt/6.8.0/msvc2022_64/include/QtQml/6.8.0
+-ID:/Qt/6.8.0/msvc2022_64/include/QtQml/6.8.0/QtQml
+-ID:/Qt/6.8.0/msvc2022_64/include/QtWebChannel
+-ID:/Qt/6.8.0/msvc2022_64/include/QtQml
+-ID:/Qt/6.8.0/msvc2022_64/include/QtQmlIntegration
+-ID:/Qt/6.8.0/msvc2022_64/include/QtNetwork
+-ID:/Qt/6.8.0/msvc2022_64/include/QtPositioning
+-ID:/Qt/6.8.0/msvc2022_64/include/QtCore/6.8.0
+-ID:/Qt/6.8.0/msvc2022_64/include/QtCore/6.8.0/QtCore
+-ID:/Qt/6.8.0/msvc2022_64/include/QtCore
+-ID:/Qt/6.8.0/msvc2022_64/include/QtWebChannelQuick
+-I.
+-IC:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\ATLMFC\include
+-IC:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include
+-IC:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um
+-IC:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt
+-IC:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared
+-IC:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um
+-IC:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt
+-IC:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt

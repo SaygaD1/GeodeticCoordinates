@@ -1,5 +1,6 @@
 window.onload = init;
 var map;
+var vectorSource; // Источник для векторных данных
 function init()
 {
 	map = new ol.Map({
@@ -10,11 +11,28 @@ function init()
         layers:[
 			new ol.layer.Tile({
 				source: new ol.source.OSM()
-			})
+            }),
+            new ol.layer.Vector({
+                source: new ol.source.Vector({}),
+            }),
 		],
 		target: 'map'
 	})
+
+    vectorSource = new ol.source.Vector({});
+    var vectorLayer = new ol.layer.Vector({
+        source: vectorSource,
+        style: new ol.style.Style({
+            stroke: new ol.style.Stroke({
+                color: '#FF0000', // Цвет линии
+                width: 2 // Ширина линии
+            })
+        })
+    });
+    map.addLayer(vectorLayer);
+    // addDrawInteraction();
 }
+
 function addLoksodroma(lat1, lng1, lat2, lng2)
 {
 	var points = [ [lat1, lng1], [lat2, lng2] ];
@@ -37,7 +55,7 @@ function addLoksodroma(lat1, lng1, lat2, lng2)
 	            stroke: new ol.style.Stroke({ color: '#FF3318', width: 2 })
 	        })
 	    });
-	    map.addLayer(vectorLineLayer);
+    map.addLayer(vectorLineLayer);
 }
 function addOrtodroma(lat1, lng1, lat2, lng2)
 {
@@ -62,15 +80,62 @@ function addOrtodroma(lat1, lng1, lat2, lng2)
 	    });
    	map.addLayer(vectorLineLayer);
 }
+
+var drawInteraction = null;
+function addDrawInteraction() {
+    drawInteraction = new ol.interaction.Draw({
+        source: vectorSource,
+        // type: 'LineString' // Тип рисуемого объекта (линия)
+        type: 'Polygon'
+    });
+
+    map.addInteraction(drawInteraction);
+
+    drawInteraction.on('drawend', function (event) {
+        // Обработка завершения рисования
+        var feature = event.feature;
+        console.log(feature.getGeometry().getCoordinates());
+    });
+}
+function disableDrawInteraction() {
+
+    if (drawInteraction) {
+        map.removeInteraction(drawInteraction);
+        drawInteraction = null;
+    }
+}
+function sendPolygon() {
+    var features = vectorSource.getFeatures();
+    var polygons = [];
+
+    features.forEach(function(feature) {
+        if (feature.getGeometry().getType() === 'Polygon') {
+            polygons.push(feature.getGeometry().getCoordinates());
+        }
+    });
+    return polygons;
+}
+
 function deleteMap()
 {
-    var layerArray, len, layer;
+    var layerArray, layer;
     layerArray = map.getLayers().getArray();
-    len = layerArray.length;
+    var len = layerArray.length;
     while(len > 1)
     {
         layer = layerArray[len-1];
         map.removeLayer(layer);
-        len = layerArray.length;
+        len -= 1;
     }
+    vectorSource = new ol.source.Vector({});
+    var vectorLayer = new ol.layer.Vector({
+        source: vectorSource,
+        style: new ol.style.Style({
+            stroke: new ol.style.Stroke({
+                color: '#FF0000', // Цвет линии
+                width: 2 // Ширина линии
+            })
+        })
+    });
+    map.addLayer(vectorLayer);
 }

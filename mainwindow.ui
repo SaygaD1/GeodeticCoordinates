@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>804</width>
+    <width>814</width>
     <height>609</height>
    </rect>
   </property>
@@ -14,21 +14,31 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
       <y>10</y>
-      <width>761</width>
+      <width>781</width>
       <height>521</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout"/>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="sizeConstraint">
+      <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
+     </property>
+    </layout>
    </widget>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>470</x>
+      <x>340</x>
       <y>540</y>
       <width>101</width>
       <height>41</height>
@@ -54,9 +64,9 @@
    <widget class="QLineEdit" name="lineEdit">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>10</x>
       <y>550</y>
-      <width>201</width>
+      <width>151</width>
       <height>21</height>
      </rect>
     </property>
@@ -97,9 +107,9 @@
    <widget class="QLineEdit" name="lineEdit_2">
     <property name="geometry">
      <rect>
-      <x>260</x>
+      <x>170</x>
       <y>550</y>
-      <width>201</width>
+      <width>151</width>
       <height>21</height>
      </rect>
     </property>
@@ -164,6 +174,20 @@
     <property name="text">
      <string>Построить
 ортодрому</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_4">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>540</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Добавить зону
+запрета</string>
     </property>
    </widget>
   </widget>
