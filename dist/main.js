@@ -107,10 +107,9 @@ function disableDrawInteraction() {
 function sendPolygon() {
     var features = vectorSource.getFeatures();
     var polygons = [];
-
     features.forEach(function(feature) {
         if (feature.getGeometry().getType() === 'Polygon') {
-            polygons.push(feature.getGeometry().getCoordinates());
+            polygons.push(feature.getGeometry());
         }
     });
     return polygons;
@@ -125,7 +124,8 @@ function deleteMap()
     {
         layer = layerArray[len-1];
         map.removeLayer(layer);
-        len -= 1;
+        layerArray = map.getLayers().getArray();
+        var len = layerArray.length;
     }
     vectorSource = new ol.source.Vector({});
     var vectorLayer = new ol.layer.Vector({

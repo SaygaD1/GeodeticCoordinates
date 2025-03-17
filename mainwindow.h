@@ -6,6 +6,7 @@
 #include <QtWebEngineWidgets/QWebEngineView>
 #include <QGeoCoordinate>
 #include <QWebChannel>
+#include <QtConcurrent/QtConcurrent>
 
 
 QT_BEGIN_NAMESPACE
@@ -20,6 +21,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void processPolygonData(const QVariant& result);
     ~MainWindow();
 
 private slots:
@@ -37,5 +39,6 @@ private:
     Ui::MainWindow *ui;
     QWebEngineView* mpWebView;
     std::vector<QGeoCoordinate> Coord;
+    std::vector<QGeoCoordinate> Polygon;
 };
 #endif // MAINWINDOW_H
