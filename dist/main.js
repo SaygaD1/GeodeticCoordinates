@@ -1,3 +1,5 @@
+// import {intersects} from 'ol/extent';
+
 window.onload = init;
 var map;
 var vectorSource; // Источник для векторных данных
@@ -60,24 +62,77 @@ function addLoksodroma(lat1, lng1, lat2, lng2)
 function addOrtodroma(lat1, lng1, lat2, lng2)
 {
 	var points = [ [lat1, lng1], [lat2, lng2] ];
-	for (var i = 0; i < points.length; i++) {
+    for (var i = 0; i < 2; i++) {
 		points[i] = ol.proj.transform(points[i], 'EPSG:4326', 'EPSG:3857');
 	}
 
-	var featureLine = new ol.Feature({
-	        geometry: new ol.geom.LineString(points)
-	    });
 
-	    var vectorLine = new ol.source.Vector({});
-	    vectorLine.addFeature(featureLine);
+    var Polygons = sendPolygon();
+    var line = new ol.geom.LineString(points);
+    var hasIntersects = false
+    if(!Polygons)
+    {
+        hasIntersects = Polygons.getExtent().intersects(line.getExtent());
+    }
 
-	    var vectorLineLayer = new ol.layer.Vector({
-	        source: vectorLine,
-	        style: new ol.style.Style({
-	            fill: new ol.style.Fill({ color: '#00FF00', weight: 4 }),
-	            stroke: new ol.style.Stroke({ color: '#00FF00', width: 2 })
-	        })
-	    });
+    var vectorLine = new ol.source.Vector({});
+    if(hasIntersects)
+    {
+        var foundPolygon;
+        var closestA;
+        var closestB;
+        for(var polygon of Polygons)
+        {
+            const ca = polygon.getClosestPoint(points[0]);
+            const cb = polygon.getClosestPoint(points[1]);
+            if(polygon.intersectsCoordinate(ca) && polygon.ol.geom.intersectsCoordinate(cb))
+            {
+                foundPolygon = polygon;
+                closestA = ca;
+                closestB = cb;
+                break;
+            }
+        }
+        var ringCoords = foundPolygon.getCoordinates()[0];
+
+        const findClosestIndex = (point, coords) =>
+            coords.reduce((bestIdx, cur, idx) =>
+                Math.hypot(cur[0] - point[0 , cur[1] - point[1]]) <
+                Math.hypot(coords[bestIdx][0] - point[0], coords[bestIdx][1] - point[1]) ? idx : bestIdx, 0);
+
+        var indexA = findClosestIndex(closestA, ringCoords);
+        var indexB = findClosestIndex(closestB, ringCoords);
+        var path1 = ringCoords.slice(indexA, indexB + 1);
+        var path2 = ringCoords.slice(indexB).concat(ringCoords.slice(0, indexA + 1));
+
+        const calculatePathLength = (path) => path.reduce((sum, cur, idx, arr) =>
+            idx == 0 ? sum : sum + Math.hypot(cur[0] - arr[idx - 1][0], cur[1] - arr[idx - 1][1]), 0);
+
+        var length1 = calculatePathLength(path1);
+        var length2 = calculatePathLength(path2);
+
+        var shortestPath = length1 < length2 ? path1 : path2;
+        var shortestPathFeature = new ol.Feature({
+            geometry: new ol.geom.LineString(shortestPath)
+        });
+        vectorLine.addFeature(shortestPathFeature);
+    }
+    else
+    {
+        var featureLine = new ol.Feature({
+                geometry: new ol.geom.LineString(points)
+        });
+        vectorLine.addFeature(featureLine);
+    }
+
+    var vectorLineLayer = new ol.layer.Vector({
+        source: vectorLine,
+        style: new ol.style.Style({
+            fill: new ol.style.Fill({ color: '#00FF00', weight: 4 }),
+            stroke: new ol.style.Stroke({ color: '#00FF00', width: 2 })
+        })
+    });
+
    	map.addLayer(vectorLineLayer);
 }
 
@@ -114,7 +169,6 @@ function sendPolygon() {
     });
     return polygons;
 }
-
 function deleteMap()
 {
     var layerArray, layer;
