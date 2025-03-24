@@ -37,7 +37,6 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    qDebug() << Polygon;
     Coord.clear();
     Polygon.clear();
     mpWebView->page()->runJavaScript(QString("deleteMap()"));
@@ -87,6 +86,7 @@ void MainWindow::on_pushButton_3_clicked()
             f1 += 57.3*orto/(N-1)*cos(psi0)/Radius;
             l1 += 57.3*orto/(N-1) * sin(psi0)/(Radius*cos(fromDToR(prevF)));
             qDebug() << QString(" Latitude[%1]=%2").arg(i).arg(f1) << QString("Longitude[%1]=%2").arg(i).arg(l1);
+
             mpWebView->page()->runJavaScript(QString("addOrtodroma(%1,%2,%3,%4)").arg(prevL).arg(prevF).arg(l1).arg(f1));
         }
     }
@@ -158,11 +158,6 @@ void MainWindow::on_pushButton_4_clicked()
             }
             qDebug() << Polygon;
         });
-        // mpWebView->page()->runJavaScript(QString("sendPolygon()"), [this](const QVariant &result) {
-        //     QtConcurrent::run([this, result]() {
-        //         processPolygonData(result);
-        //     });
-        // });
         mpWebView->page()->runJavaScript(QString("disableDrawInteraction()"));
     }
 }
