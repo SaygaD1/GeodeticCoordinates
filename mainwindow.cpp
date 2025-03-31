@@ -86,7 +86,6 @@ void MainWindow::on_pushButton_3_clicked()
             f1 += 57.3*orto/(N-1)*cos(psi0)/Radius;
             l1 += 57.3*orto/(N-1) * sin(psi0)/(Radius*cos(fromDToR(prevF)));
             qDebug() << QString(" Latitude[%1]=%2").arg(i).arg(f1) << QString("Longitude[%1]=%2").arg(i).arg(l1);
-
             mpWebView->page()->runJavaScript(QString("addOrtodroma(%1,%2,%3,%4)").arg(prevL).arg(prevF).arg(l1).arg(f1));
         }
     }
