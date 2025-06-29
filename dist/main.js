@@ -89,29 +89,7 @@ function addOrtodroma(lat1, lng1, lat2, lng2)
                 break;
             }
         }
-        /*for(var polygon of Polygons)
-        {
-            const ca = polygon.getClosestPoint(points[0]);
-            const cb = polygon.getClosestPoint(points[1]);
-            if(polygon.intersectsCoordinate(ca) && polygon.ol.geom.intersectsCoordinate(cb))
-            {
-                foundPolygon = polygon;
-                closestA = ca;
-                closestB = cb;
-                var lineCoords = line.getCoordinates();
-                var polygonCoords = polygon.getCoordinates()[0];
-                for (var i = 0; i < polygonCoords.length - 1; i++) {
-                    var segment = new ol.geom.LineString([polygonCoords[i], polygonCoords[i + 1]]);
-                    var intersection = ol.geom.LineString.prototype.getIntersection(line, segment);
-                    if (intersection) {
-                        intersectionPoints.push(intersection);
-                    }
-                }
-                break;
-            }
-        }*/
         var ringCoords = foundPolygon.getCoordinates()[0];
-
         for (var i = 0; i < ringCoords.length - 1; i++) {
             var segment = new ol.geom.LineString([ringCoords[i], ringCoords[i + 1]]);
             var intersection = getLineIntersection(line, segment);
@@ -141,6 +119,45 @@ function addOrtodroma(lat1, lng1, lat2, lng2)
                 // Добавляем конечную точку
                 path.push(points[1]);
             }
+            if(path.length == 2)
+            {
+                const entryPoint = intersectionPoints[0]; // Точка входа
+                const exitPoint = intersectionPoints[intersectionPoints.length - 1]; // Точка выхода
+
+                // 4. Находим индексы точек на границе полигона
+                const entryIndex = findClosestVertexIndex(ringCoords, entryPoint);
+                const exitIndex = findClosestVertexIndex(ringCoords, exitPoint);
+
+                // 5. Строим два пути (по часовой и против часовой стрелки)
+                const pathClockwise = buildBoundaryPath(ringCoords, entryIndex, exitIndex, true);
+                const pathCounterClockwise = buildBoundaryPath(ringCoords, entryIndex, exitIndex, false);
+
+                // 6. Выбираем более короткий путь
+                const shortestPath = (
+                    ol.sphere.getLength(pathClockwise) < ol.sphere.getLength(pathCounterClockwise) ?
+                    pathClockwise : pathCounterClockwise
+                );
+
+                // 7. Строим итоговую линию: вход → кратчайший путь по границе → выход
+                const boundaryPath = new ol.geom.LineString([entryPoint, ...shortestPath, exitPoint]);
+
+                // 8. Добавляем линию на карту (например, красным пунктиром)
+                const boundaryFeature = new ol.Feature({
+                    geometry: boundaryPath,
+                    name: 'Shortest Boundary Path'
+                });
+
+                boundaryFeature.setStyle(
+                    new ol.style.Style({
+                        stroke: new ol.style.Stroke({
+                            color: [255, 0, 0, 1], // Красный
+                            width: 4,
+                            lineDash: [5, 5] // Пунктир
+                        })
+                    })
+                );
+                vectorLine.addFeature(boundaryFeature);
+            }
 
             var shortestPathFeature = new ol.Feature({
                 geometry: new ol.geom.LineString(path)
@@ -166,6 +183,37 @@ function addOrtodroma(lat1, lng1, lat2, lng2)
 
    	map.addLayer(vectorLineLayer);
 }
+// Находит ближайшую вершину полигона к точке пересечения
+function findClosestVertexIndex(coords, point) {
+    let minDist = Infinity;
+    let closestIndex = 0;
+    for (let i = 0; i < coords.length; i++) {
+        const dist = ol.sphere.getDistance(point, coords[i]);
+        if (dist < minDist) {
+            minDist = dist;
+            closestIndex = i;
+        }
+    }
+    return closestIndex;
+}
+// Строит путь вдоль границы между двумя точками
+function buildBoundaryPath(coords, startIndex, endIndex, clockwise) {
+    const path = [];
+    const n = coords.length;
+
+    if (clockwise) {
+        for (let i = startIndex; i !== endIndex; i = (i + 1) % n) {
+            path.push(coords[i]);
+        }
+    } else {
+        for (let i = startIndex; i !== endIndex; i = (i - 1 + n) % n) {
+            path.push(coords[i]);
+        }
+    }
+    path.push(coords[endIndex]); // Добавляем конечную точку
+    return path;
+}
+
 function getLineIntersection(line1, line2) {
     var p1 = line1.getCoordinates()[0];
     var p2 = line1.getCoordinates()[1];
