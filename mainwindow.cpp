@@ -88,6 +88,7 @@ void MainWindow::on_pushButton_3_clicked()
             qDebug() << QString(" Latitude[%1]=%2").arg(i).arg(f1) << QString("Longitude[%1]=%2").arg(i).arg(l1);
             mpWebView->page()->runJavaScript(QString("addOrtodroma(%1,%2,%3,%4)").arg(prevL).arg(prevF).arg(l1).arg(f1));
         }
+        mpWebView->page()->runJavaScript(QString("drawIntersection()"));
     }
 }
 
